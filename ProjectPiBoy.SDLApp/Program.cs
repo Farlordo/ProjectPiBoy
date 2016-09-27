@@ -1,4 +1,5 @@
 ﻿using ProjectPiBoy.SDLApp.Screens;
+using ProjectPiBoy.SDLApp.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -151,13 +152,13 @@ namespace ProjectPiBoy.SDLApp
             Vector2 screenDimensions = new Vector2(scrWidth, scrHeight);
 
             //Clear the frame buffer
-            SDL_SetRenderDrawColor(this.Renderer, 0, 0, 0, 255);
+            SDLUtil.SetSDLRenderDrawColor(this.Renderer, this.Assets.Theme.BackgroundColor);
             SDL_RenderClear(this.Renderer);
 
             if (this.Screens.Count > 0)
             {
                 Screen screen = this.Screens.Peek();
-                screen.Render(this.Renderer, screenDimensions, this.Assets, showDebugBorders: true);
+                screen.Render(this.Renderer, screenDimensions, this.Assets, showDebugBorders: false);
             }
 
             //Update the screen

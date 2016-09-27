@@ -25,10 +25,10 @@ namespace ProjectPiBoy.SDLApp.UiObjects
             if (showDebugBorders)
             {
                 //Get a SDL_Rect representing the border
-                SDL_Rect border = ScreenSpaceUtils.GetGlobalBorderRectangle(this.Placement, screenDimensions);
+                SDL_Rect border = ScreenSpaceUtil.GetGlobalBorderRectangle(this.Placement, screenDimensions);
 
                 //Set the color to green, and render the border rectangle
-                SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+                SDLUtil.SetSDLRenderDrawColor(renderer, assets.Theme.DebugOutlineColor);
                 SDL_RenderDrawRect(renderer, ref border);
             }
         }

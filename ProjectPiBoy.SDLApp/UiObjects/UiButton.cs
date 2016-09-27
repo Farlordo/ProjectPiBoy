@@ -23,12 +23,24 @@ namespace ProjectPiBoy.SDLApp.UiObjects
 
         public override void Render(IntPtr renderer, Vector2 screenDimensions, Assets assets, bool showDebugBorders)
         {
+            Vector2 topLeft = ScreenSpaceUtil.PercentageToGlobal(this.Placement.TopLeft, screenDimensions);
+            Vector2 bottomRight = ScreenSpaceUtil.PercentageToGlobal(this.Placement.BottomRight, screenDimensions);
+
+            SDL_Rect buttonRect = ScreenSpaceUtil.GetGlobalBorderRectangle(this.Placement, screenDimensions);
+
+            //Background
+            SDLUtil.SetSDLRenderDrawColor(renderer, assets.Theme.SecondaryColor);
+            SDL_RenderFillRect(renderer, ref buttonRect);
+
+            //Outline
+            SDLUtil.SetSDLRenderDrawColor(renderer, assets.Theme.PrimaryColor);
+            //SDL_RenderSetScale(renderer, 2, 2);
+            SDL_RenderDrawRect(renderer, ref buttonRect);
+            //SDL_RenderSetScale(renderer, 1, 1);
+            //TODO: Use scaling to draw thicker lines. This requires scaling the drawing coordinates as well. Maybe a using() thing could be used to manage the scale.
+
+            //Render the base button, and contents
             base.Render(renderer, screenDimensions, assets, showDebugBorders);
-
-            Vector2 topLeft = ScreenSpaceUtils.PercentageToGlobal(this.Placement.TopLeft, screenDimensions);
-            Vector2 bottomRight = ScreenSpaceUtils.PercentageToGlobal(this.Placement.BottomRight, screenDimensions);
-
-            SDL_RenderDrawLine(renderer, (int) topLeft.X, (int)topLeft.Y, (int)bottomRight.X, (int)bottomRight.Y);
         }
     }
 }

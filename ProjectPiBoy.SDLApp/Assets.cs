@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ProjectPiBoy.Common.Utilities;
+using ProjectPiBoy.SDLApp.Utilities;
+using System;
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 
@@ -11,8 +13,20 @@ namespace ProjectPiBoy.SDLApp
     {
         public IntPtr MainFont;
 
+        public Theme Theme { get; private set; }
+
         public bool Init()
         {
+            this.Theme = new Theme()
+            {
+                PrimaryColor = new Color(0xFF00FF00),
+                SecondaryColor = new Color(0xFF002200),
+                BackgroundColor = new Color(0xFF001100),
+                TextColor = new Color(0xFF44FF44),
+                DisabledTextColor = new Color(0xFF88AA88),
+                DebugOutlineColor = new Color(0xFFFFFF00)
+            };
+
             if (!LoadFont("DroidSansMono", 24, out this.MainFont))
                 return false;
 

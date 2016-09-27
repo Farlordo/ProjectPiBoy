@@ -12,7 +12,7 @@ namespace ProjectPiBoy.SDLApp.Utilities
     /// <summary>
     /// A class that contains utility functions for working with screen space coordinates.
     /// </summary>
-    public static class ScreenSpaceUtils
+    public static class ScreenSpaceUtil
     {
         /// <summary>
         /// Converts from percentage coordinates to global coordinates.
