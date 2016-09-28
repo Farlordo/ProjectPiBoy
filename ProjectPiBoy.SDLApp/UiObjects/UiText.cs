@@ -36,9 +36,9 @@ namespace ProjectPiBoy.SDLApp.UiObjects
             }
         }
 
-        private Color _Color;
+        private Color? _Color;
         /// <summary>The color of the text</summary>
-        public Color Color
+        public Color? Color
         {
             get { return this._Color; }
             set
@@ -59,7 +59,7 @@ namespace ProjectPiBoy.SDLApp.UiObjects
             if (!string.IsNullOrWhiteSpace(this.Text))
             {
                 //Create a new surface with the text drawn on it
-                IntPtr surface = TTF_RenderText_Solid(assets.MainFont, this.Text, assets.Theme.TextColor.ToSDLColor());
+                IntPtr surface = TTF_RenderText_Solid(assets.MainFont, this.Text, this.Color?.ToSDLColor() ?? assets.Theme.TextColor.ToSDLColor());
 
                 if (surface == IntPtr.Zero)
                     throw new ApplicationException($"TTF_RenderText_Solid() error: \"{SDL_GetError()}\"");
@@ -96,7 +96,7 @@ namespace ProjectPiBoy.SDLApp.UiObjects
                 TTF_SizeText(assets.MainFont, this.Text, out textWidth, out textHeight);
 
                 //Calculate the global position of the center of the texture
-                Vector2 globalPos = ScreenSpaceUtil.PercentageToGlobal(this.Placement.PosVec, screenDimensions);
+                Vector2 globalPos = ScreenSpaceUtil.PercentageToGlobal(this.GetGlobalPlacement().PosVec, screenDimensions);
                 SDL_Rect textureRect = new SDL_Rect()
                 {
                     x = (int)globalPos.X - textWidth / 2,

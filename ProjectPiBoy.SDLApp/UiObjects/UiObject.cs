@@ -12,20 +12,40 @@ namespace ProjectPiBoy.SDLApp.UiObjects
     {
         public UiObject() : this(default(UiObjectPlacement)) { }
 
-        public UiObject(UiObjectPlacement placement)
+        public UiObject(UiObjectPlacement placement, Vector2 placementOffset = new Vector2())
         {
             this.Placement = placement;
+            this.PlacementOffset = placementOffset;
         }
 
         /// <summary>The placement of this <see cref="UiObject"/></summary>
-        public UiObjectPlacement Placement { get; set; }
+        public virtual UiObjectPlacement Placement { get; set; }
+
+        /// <summary>The offset of the placement</summary>
+        public virtual Vector2 PlacementOffset { get; set; }
+
+        /// <summary>
+        /// Calculates and returns the global placement of this <see cref="UiObject"/>
+        /// </summary>
+        /// <returns>The global placement of this <see cref="UiObject"/></returns>
+        public virtual UiObjectPlacement GetGlobalPlacement()
+        {
+            //Create a copy of this UiObject's placement
+            UiObjectPlacement globalPlacement = new UiObjectPlacement(this.Placement);
+
+            //Add the placement offset to the placement
+            globalPlacement.PosVec += this.PlacementOffset;
+
+            //Return the new, global placement
+            return globalPlacement;
+        }
 
         public virtual void Render(IntPtr renderer, Vector2 screenDimensions, Assets assets, bool showDebugBorders)
         {
             if (showDebugBorders)
             {
                 //Get a SDL_Rect representing the border
-                SDL_Rect border = ScreenSpaceUtil.GetGlobalBorderRectangle(this.Placement, screenDimensions);
+                SDL_Rect border = ScreenSpaceUtil.GetGlobalBorderRectangle(this.GetGlobalPlacement(), screenDimensions);
 
                 //Set the color to green, and render the border rectangle
                 SDLUtil.SetSDLRenderDrawColor(renderer, assets.Theme.DebugOutlineColor);

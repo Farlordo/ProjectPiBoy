@@ -58,8 +58,10 @@
     <Compile Include="SDL2-CS\SDL2_mixer.cs" />
     <Compile Include="SDL2-CS\SDL2_ttf.cs" />
     <Compile Include="SDLEventListener.cs" />
+    <Compile Include="UiObjects\UiAbsoluteLayoutContainer.cs" />
     <Compile Include="UiObjects\UiButton.cs" />
     <Compile Include="UiObjects\UiContainer.cs" />
+    <Compile Include="UiObjects\UiMultiContainer.cs" />
     <Compile Include="UiObjects\UiObject.cs" />
     <Compile Include="UiObjects\UiObjectPlacement.cs" />
     <Compile Include="UiObjects\UiText.cs" />

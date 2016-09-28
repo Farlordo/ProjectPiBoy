@@ -23,10 +23,11 @@ namespace ProjectPiBoy.SDLApp.UiObjects
 
         public override void Render(IntPtr renderer, Vector2 screenDimensions, Assets assets, bool showDebugBorders)
         {
-            Vector2 topLeft = ScreenSpaceUtil.PercentageToGlobal(this.Placement.TopLeft, screenDimensions);
-            Vector2 bottomRight = ScreenSpaceUtil.PercentageToGlobal(this.Placement.BottomRight, screenDimensions);
+            UiObjectPlacement globalPlacement = this.GetGlobalPlacement();
+            Vector2 topLeft = ScreenSpaceUtil.PercentageToGlobal(globalPlacement.TopLeft, screenDimensions);
+            Vector2 bottomRight = ScreenSpaceUtil.PercentageToGlobal(globalPlacement.BottomRight, screenDimensions);
 
-            SDL_Rect buttonRect = ScreenSpaceUtil.GetGlobalBorderRectangle(this.Placement, screenDimensions);
+            SDL_Rect buttonRect = ScreenSpaceUtil.GetGlobalBorderRectangle(globalPlacement, screenDimensions);
 
             //Background
             SDLUtil.SetSDLRenderDrawColor(renderer, assets.Theme.SecondaryColor);
