@@ -1,9 +1,9 @@
-﻿using ProjectPiBoy.SDLApp.Screens;
+﻿using ProjectPiBoy.Common.Utilities;
+using ProjectPiBoy.SDLApp.Screens;
 using ProjectPiBoy.SDLApp.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Numerics;
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 namespace ProjectPiBoy.SDLApp
@@ -59,7 +59,7 @@ namespace ProjectPiBoy.SDLApp
             }
 
             //Create the window
-            this.Window = SDL_CreateWindow("PiBoy", 100, 100, 800, 480, SDL_WindowFlags.SDL_WINDOW_SHOWN);
+            this.Window = SDL_CreateWindow("PiBoy", 100, 100, 640, 480, SDL_WindowFlags.SDL_WINDOW_SHOWN);
 
             //If the window pointer is null
             if (this.Window == IntPtr.Zero)

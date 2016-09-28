@@ -1,8 +1,8 @@
-﻿using ProjectPiBoy.SDLApp.Utilities;
+﻿using ProjectPiBoy.Common.Utilities;
+using ProjectPiBoy.SDLApp.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using static SDL2.SDL;

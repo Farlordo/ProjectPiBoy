@@ -44,6 +44,8 @@
     <Compile Include="Utilities\Color.cs" />
     <Compile Include="Utilities\MathUtil.cs" />
     <Compile Include="Utilities\Theme.cs" />
+    <Compile Include="Utilities\Vector2.cs" />
+    <Compile Include="Utilities\Vector3.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

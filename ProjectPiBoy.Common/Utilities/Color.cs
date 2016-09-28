@@ -1,6 +1,12 @@
 ﻿
 namespace ProjectPiBoy.Common.Utilities
 {
+    /// <summary>
+    /// Represents an RGB color, with an additional alpha channel.
+    /// </summary>
+    /// <remarks>
+    /// Based on Color in Dalton's ShockLib Minecraft mod.
+    /// </remarks>
     public struct Color
     {
         private float _Red;

@@ -1,6 +1,6 @@
-﻿using ProjectPiBoy.SDLApp.Utilities;
+﻿using ProjectPiBoy.Common.Utilities;
+using ProjectPiBoy.SDLApp.Utilities;
 using System;
-using System.Numerics;
 using static SDL2.SDL;
 
 namespace ProjectPiBoy.SDLApp.UiObjects

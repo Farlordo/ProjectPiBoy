@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ProjectPiBoy.Common.Utilities;
 
 namespace ProjectPiBoy.SDLApp.UiObjects
 {
@@ -44,8 +39,8 @@ namespace ProjectPiBoy.SDLApp.UiObjects
             get { return new Vector2(this.XPos, this.YPos); }
             set
             {
-                this.XPos = value.X;
-                this.YPos = value.Y;
+                this.XPos = (float) value.X;
+                this.YPos = (float) value.Y;
             }
         }
 
