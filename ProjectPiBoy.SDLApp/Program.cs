@@ -97,6 +97,9 @@ namespace ProjectPiBoy.SDLApp
             //Quit the program when the quit event is fired
             this.EventListener.QuitRequested += (s, e) => this.Running = false;
 
+            //DEBUG
+            this.EventListener.TouchEvent += (s, e) => Console.WriteLine(e);
+
             return true;
         }
 
