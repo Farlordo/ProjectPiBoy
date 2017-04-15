@@ -70,7 +70,14 @@ namespace ProjectPiBoy.SDLApp.UiObjects
         /// <returns></returns>
         public bool ContainsPoint(float x, float y) =>
             x >= this.LeftEdge && x <= this.RightEdge &&
-            y >= this.BottomEdge && y <= this.TopEdge;
+            y >= this.TopEdge && y <= this.BottomEdge;
+
+        /// <summary>
+        /// Determines whether the specified point is contained within the UiObject's bounds
+        /// </summary>
+        /// <param name="point">The point, with coordinates as a percentage of the screen. 0.0 - 1.0</param>
+        /// <returns></returns>
+        public bool ContainsPoint(Vector2 point) => this.ContainsPoint((float)point.X, (float)point.Y);
 
         public override string ToString() => $"{nameof(UiObjectPlacement)}({nameof(this.XPos)}: {this.XPos}, {nameof(this.YPos)}: {this.YPos}, {nameof(this.Width)}: {this.Width}, {nameof(this.Height)}: {this.Height}, {nameof(this.Depth)}: {this.Depth})";
     }

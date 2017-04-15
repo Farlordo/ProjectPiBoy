@@ -49,7 +49,9 @@
   <ItemGroup>
     <Compile Include="Assets.cs" />
     <Compile Include="Input\EnumTouchType.cs" />
+    <Compile Include="Input\ITouchListener.cs" />
     <Compile Include="Input\TouchInputEventArgs.cs" />
+    <Compile Include="Input\TouchListener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\TestScreen.cs" />

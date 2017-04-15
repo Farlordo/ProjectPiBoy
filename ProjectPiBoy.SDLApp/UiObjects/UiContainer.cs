@@ -1,4 +1,5 @@
 ﻿using ProjectPiBoy.Common.Utilities;
+using ProjectPiBoy.SDLApp.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,24 @@ namespace ProjectPiBoy.SDLApp.UiObjects
             base.Dispose();
 
             this.Content?.Dispose();
+        }
+
+        public override bool HandleTouch(TouchInputEventArgs e)
+        {
+            return HandleChildrenTouchHelper(e, new[] { this.Content }, base.HandleTouch,
+                (e1, c1) => c1.ContainsGlobalPoint(e1.Pos));
+
+            //bool handled = false;
+
+            ////Try to have the content handle the touch event
+            //if (this.Content != null && this.Content.Placement.ContainsPoint(e.Pos))
+            //    handled = this.Content.HandleTouch(e);
+
+            ////If the touch event wasn't handled by the content, then handle it
+            //if (!handled)
+            //    handled = base.HandleTouch(e);
+
+            //return handled;
         }
     }
 }

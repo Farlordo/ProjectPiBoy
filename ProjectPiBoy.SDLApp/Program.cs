@@ -98,7 +98,22 @@ namespace ProjectPiBoy.SDLApp
             this.EventListener.QuitRequested += (s, e) => this.Running = false;
 
             //DEBUG
-            this.EventListener.TouchEvent += (s, e) => Console.WriteLine(e);
+            //this.EventListener.TouchEvent += (s, e) => Console.WriteLine(e);
+
+            //Delegate touch events to the top screen
+            this.EventListener.TouchEvent += (s, e) =>
+            {
+                if (this.Screens.Count > 0)
+                {
+                    SDL_GetWindowSize(this.Window, out int width, out int height);
+
+                    //Convert to percent coordinates
+                    e.Pos /= new Vector2(width, height);
+
+                    //Have the screen handle the touch
+                    this.Screens.Peek()?.HandleTouch(e);
+                }
+            };
 
             return true;
         }

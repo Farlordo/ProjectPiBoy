@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ProjectPiBoy.Common.Utilities;
 using System.ComponentModel;
 using System.Collections.Specialized;
+using ProjectPiBoy.SDLApp.Input;
 
 namespace ProjectPiBoy.SDLApp.UiObjects
 {
@@ -88,6 +89,31 @@ namespace ProjectPiBoy.SDLApp.UiObjects
 
             foreach (UiObject uiObj in this.ContentList)
                 uiObj?.Dispose();
+        }
+
+        public override bool HandleTouch(TouchInputEventArgs e)
+        {
+            return HandleChildrenTouchHelper(e, this.ContentList, base.HandleTouch,
+                (e1, c1) => c1.ContainsGlobalPoint(e1.Pos));
+
+            //bool handled = false;
+
+            ////Try to have the content handle the touch event
+            //foreach (UiObject uiObj in this.ContentList)
+            //{
+            //    //Once one child handles it, we don't need to try the others
+            //    if (handled)
+            //        break;
+
+            //    if (uiObj.Placement.ContainsPoint(e.Pos))
+            //        handled = uiObj.HandleTouch(e);
+            //}
+
+            ////If the touch event wasn't handled by the content, then handle it
+            //if (!handled)
+            //    handled = base.HandleTouch(e);
+
+            //return handled;
         }
     }
 }

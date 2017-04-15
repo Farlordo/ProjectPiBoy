@@ -33,7 +33,7 @@ namespace ProjectPiBoy.SDLApp.Input
         /// <summary>
         /// The position of the touch
         /// </summary>
-        public Vector2 Pos { get; }
+        public Vector2 Pos { get; set; }
 
         /// <summary>
         /// The movement of the touch
