@@ -14,7 +14,7 @@ namespace ProjectPiBoy.SDLApp.UiObjects
     /// <summary>
     /// Represents a button that can be pressed.
     /// </summary>
-    public class UiButton : UiContainer
+    public class UiButton : UiObject
     {
         /// <summary>Whether the button is pressed or not</summary>
         public bool Pressed { get; protected set; }
@@ -28,11 +28,10 @@ namespace ProjectPiBoy.SDLApp.UiObjects
 
         public override void Render(IntPtr renderer, Vector2 screenDimensions, Assets assets, bool showDebugBorders)
         {
-            UiObjectPlacement globalPlacement = this.GetGlobalPlacement();
-            Vector2 topLeft = ScreenSpaceUtil.PercentageToGlobal(globalPlacement.TopLeft, screenDimensions);
-            Vector2 bottomRight = ScreenSpaceUtil.PercentageToGlobal(globalPlacement.BottomRight, screenDimensions);
+            Vector2 topLeft = ScreenSpaceUtil.PercentageToGlobal(this.GlobalPlacement.TopLeft, screenDimensions);
+            Vector2 bottomRight = ScreenSpaceUtil.PercentageToGlobal(this.GlobalPlacement.BottomRight, screenDimensions);
 
-            SDL_Rect buttonRect = ScreenSpaceUtil.GetGlobalBorderRectangle(globalPlacement, screenDimensions);
+            SDL_Rect buttonRect = ScreenSpaceUtil.GetGlobalBorderRectangle(this.GlobalPlacement, screenDimensions);
 
             Color backgroundColor;
 

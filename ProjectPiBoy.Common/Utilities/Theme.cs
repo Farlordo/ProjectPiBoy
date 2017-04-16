@@ -26,5 +26,7 @@ namespace ProjectPiBoy.Common.Utilities
         public Color DisabledTextColor { get; set; }
 
         public Color DebugOutlineColor { get; set; }
+
+        public Color DebugOutlineHighlightColor { get; set; }
     }
 }

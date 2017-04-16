@@ -12,6 +12,7 @@ namespace ProjectPiBoy.SDLApp.UiObjects
     /// <summary>
     /// Represents a <see cref="UiObject"/> that contains another single <see cref="UiObject"/>.
     /// </summary>
+    [Obsolete(message: "Functionality moved to UiObject", error: true)]
     public abstract class UiContainer : UiObject
     {
         public UiContainer(Screen screen, UiObjectPlacement placement) : base(screen, placement)

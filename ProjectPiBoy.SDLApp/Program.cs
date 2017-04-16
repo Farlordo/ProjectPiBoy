@@ -165,8 +165,7 @@ namespace ProjectPiBoy.SDLApp
         /// </summary>
         public void Render()
         {
-            int scrWidth, scrHeight;
-            SDL_GetWindowSize(this.Window, out scrWidth, out scrHeight);
+            SDL_GetWindowSize(this.Window, out int scrWidth, out int scrHeight);
             Vector2 screenDimensions = new Vector2(scrWidth, scrHeight);
 
             //Clear the frame buffer

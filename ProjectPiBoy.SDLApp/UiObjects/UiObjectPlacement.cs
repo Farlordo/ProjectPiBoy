@@ -25,10 +25,10 @@ namespace ProjectPiBoy.SDLApp.UiObjects
         public float YPos { get; set; }
 
         /// <summary>The width of the UiObject, in a percentage of the screen. 0.0 - 1.0</summary>
-        public float Width { get; }
+        public float Width { get; set; }
 
         /// <summary>The height of the UiObject, in a percentage of the screen. 0.0 - 1.0</summary>
-        public float Height { get; }
+        public float Height { get; set; }
 
         /// <summary>The depth of the UiObject. Larger numbers = greater depth</summary>
         public int Depth { get; }
@@ -36,7 +36,7 @@ namespace ProjectPiBoy.SDLApp.UiObjects
         /// <summary>A <see cref="Vector2"/> representation of the UiObject's position.</summary>
         public Vector2 PosVec
         {
-            get { return new Vector2(this.XPos, this.YPos); }
+            get => new Vector2(this.XPos, this.YPos);
             set
             {
                 this.XPos = (float) value.X;

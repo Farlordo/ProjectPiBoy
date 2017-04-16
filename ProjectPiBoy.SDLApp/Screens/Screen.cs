@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using ProjectPiBoy.SDLApp.UiObjects;
 using ProjectPiBoy.Common.Utilities;
 using ProjectPiBoy.SDLApp.Input;
+using System.Collections;
 
 namespace ProjectPiBoy.SDLApp.Screens
 {
     /// <summary>
     /// Represents a screen that can be displayed by the program.
     /// </summary>
-    public abstract class Screen : TouchListener, IRenderable, IDisposable
+    public abstract class Screen : TouchListener, IRenderable, IDisposable, IEnumerable<UiObject>
     {
         public Screen()
         {
@@ -29,14 +30,19 @@ namespace ProjectPiBoy.SDLApp.Screens
 
         public void Dispose()
         {
-            foreach (UiObject uiObject in this.UiObjects)
+            foreach (UiObject uiObject in this)
                 uiObject.Dispose();
         }
 
         public virtual void Render(IntPtr renderer, Vector2 screenDimensions, Assets assets, bool showDebugBorders)
         {
-            foreach (UiObject uiObject in this.UiObjects)
+            foreach (UiObject uiObject in this)
                 uiObject.Render(renderer, screenDimensions, assets, showDebugBorders);
+        }
+
+        public Stack<UiObject> FindUiObjectsAtPosition(Vector2 pos)
+        {
+            throw new NotImplementedException();
         }
 
         public override bool HandleTouch(TouchInputEventArgs e)
@@ -71,6 +77,10 @@ namespace ProjectPiBoy.SDLApp.Screens
 
             //return handled;
         }
+
+        public IEnumerator<UiObject> GetEnumerator() => this.UiObjects.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => this.UiObjects.GetEnumerator();
 
         //public override void OnTouchHover(TouchInputEventArgs e)
         //{

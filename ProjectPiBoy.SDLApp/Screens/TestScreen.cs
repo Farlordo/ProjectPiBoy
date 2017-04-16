@@ -19,7 +19,7 @@ namespace ProjectPiBoy.SDLApp.Screens
         {
             var clickMeButton = new UiButton(this, new UiObjectPlacement(0.2F, 0.1F, 0.4F, 0.2F, 0))
             {
-                Content = new UiText(this)
+                new UiText(this)
                 {
                     Text = "Click Me!"
                 }
@@ -32,7 +32,7 @@ namespace ProjectPiBoy.SDLApp.Screens
 
             this.UiObjects.Add(new UiButton(this, new UiObjectPlacement(0.8F, 0.1F, 0.4F, 0.2F, 0))
             {
-                Content = new UiText(this)
+                new UiText(this)
                 {
                     Text = "Button 2"
                 }
@@ -44,30 +44,35 @@ namespace ProjectPiBoy.SDLApp.Screens
                 Text = "TITLE"
             });
 
-            this.UiObjects.Add(new UiButton(this, new UiObjectPlacement(0.5F, 0.8F, 0.9F, 0.2F, 0))
+            var outerButton = new UiButton(this, new UiObjectPlacement(0.5F, 0.8F, 0.9F, 0.2F, 0))
             {
-                Content = new UiAbsoluteLayoutContainer(this)
+                ((Func<UiButton>)(() =>
                 {
-                    ContentList = new ObservableCollection<UiObject>
+                    UiButton button = new UiButton(this, new UiObjectPlacement(-0.2F, 0F, 0.3F, 0.1F, 0))
                     {
-                        new UiButton(this, new UiObjectPlacement(-0.2F, 0F, 0.3F, 0.1F, 0))
-                        {
-                            Content = new UiText(this)
-                            {
-                                Text = "Inner Button",
-                                Color = new Color(0xFFFF0000)
-                            }
-                        },
-
                         new UiText(this)
                         {
-                            Placement = new UiObjectPlacement(0.2F, 0F, 0F, 0F, 0),
-                            Text = "Inner Text",
-                            Color = new Color(0xFF0000FF)
+                            Text = "Inner Button",
+                            Color = new Color(0xFFFF0000)
                         }
-                    }
+                    };
+
+                    button.Click += () => Console.WriteLine("Inner button clicked!");
+
+                    return button;
+                }))(),
+
+                new UiText(this)
+                {
+                    Placement = new UiObjectPlacement(0.2F, 0F, 0F, 0F, 0),
+                    Text = "Inner Text",
+                    Color = new Color(0xFF0000FF)
                 }
-            });
+            };
+
+            outerButton.Click += () => Console.WriteLine("Outer button clicked!");
+
+            this.UiObjects.Add(outerButton);
         }
     }
 }

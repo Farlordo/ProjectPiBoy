@@ -26,7 +26,8 @@ namespace ProjectPiBoy.SDLApp
                 BackgroundColor = new Color(0xFF001100),
                 TextColor = new Color(0xFF44FF44),
                 DisabledTextColor = new Color(0xFF88AA88),
-                DebugOutlineColor = new Color(0xFFFFFF00)
+                DebugOutlineColor = new Color(0xFFFFFF00),
+                DebugOutlineHighlightColor = new Color(0xFFFF0000)
             };
 
             if (!LoadFont("DroidSansMono", 24, out this.MainFont))

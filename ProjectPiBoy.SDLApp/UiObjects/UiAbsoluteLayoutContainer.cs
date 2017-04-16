@@ -9,6 +9,7 @@ using ProjectPiBoy.SDLApp.Screens;
 
 namespace ProjectPiBoy.SDLApp.UiObjects
 {
+    [Obsolete(message: "Functionality moved to UiObject", error: true)]
     public class UiAbsoluteLayoutContainer : UiMultiContainer
     {
         public UiAbsoluteLayoutContainer(Screen screen, UiObjectPlacement placement = new UiObjectPlacement()) : base(screen, placement)

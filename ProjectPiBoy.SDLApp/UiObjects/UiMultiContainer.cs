@@ -12,6 +12,7 @@ using ProjectPiBoy.SDLApp.Screens;
 
 namespace ProjectPiBoy.SDLApp.UiObjects
 {
+    [Obsolete(message: "Functionality moved to UiObject", error: true)]
     public abstract class UiMultiContainer : UiObject
     {
         public UiMultiContainer(Screen screen, UiObjectPlacement placement) : base(screen, placement)

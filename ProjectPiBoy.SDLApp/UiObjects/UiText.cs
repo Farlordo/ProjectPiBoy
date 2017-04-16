@@ -49,13 +49,21 @@ namespace ProjectPiBoy.SDLApp.UiObjects
             }
         }
 
+        /// <summary>The width of the text, in pixels</summary>
+        public int TextWidth { get; protected set; }
+
+        /// <summary>The height of the text, in pixels</summary>
+        public int TextHeight { get; protected set; }
 
         private bool TextNeedsRerendered { get; set; }
 
-        public void RerenderTexture(IntPtr renderer, Assets assets)
+        public void RerenderTexture(IntPtr renderer, Assets assets, Vector2 screenDimensions)
         {
             //Clean up the old texture
             this.DisposeTexture();
+
+            int textWidth = 0;
+            int textHeight = 0;
 
             if (!string.IsNullOrWhiteSpace(this.Text))
             {
@@ -76,7 +84,25 @@ namespace ProjectPiBoy.SDLApp.UiObjects
 
                 //Keep track of this
                 this.TextureAllocated = true;
+
+                //Query the text width and height in pixels
+                TTF_SizeText(assets.MainFont, this.Text, out textWidth, out textHeight);
             }
+
+            //Update the cached text dimensions
+            this.TextWidth = textWidth;
+            this.TextHeight = textHeight;
+
+            UiObjectPlacement placement = this.Placement;
+
+            //Convert the text dimensions to screen percentage
+            Vector2 textDimensions = new Vector2(textWidth, textHeight);
+            Vector2 textDimensionsPercent = ScreenSpaceUtil.GlobalToPercentage(textDimensions, screenDimensions);
+
+            //Update the placement's width and height
+            placement.Width = (float)textDimensionsPercent.X;
+            placement.Height = (float)textDimensionsPercent.Y;
+            this.Placement = placement;
 
             //It just got rerendered, or doesn't need to be
             this.TextNeedsRerendered = false;
@@ -87,29 +113,23 @@ namespace ProjectPiBoy.SDLApp.UiObjects
             base.Render(renderer, screenDimensions, assets, showDebugBorders);
 
             if (this.TextNeedsRerendered)
-                this.RerenderTexture(renderer, assets);
+                this.RerenderTexture(renderer, assets, screenDimensions);
 
             //Only render the text if the texture is allocated
             if (this.TextureAllocated)
             {
-                //Query the text width and height in pixels, so we can center it. TODO: Should this only be calculated when the text is rerendered?
-                int textWidth, textHeight;
-                TTF_SizeText(assets.MainFont, this.Text, out textWidth, out textHeight);
-
                 //Calculate the global position of the center of the texture
-                Vector2 globalPos = ScreenSpaceUtil.PercentageToGlobal(this.GetGlobalPlacement().PosVec, screenDimensions);
+                Vector2 globalPos = ScreenSpaceUtil.PercentageToGlobal(this.GlobalPlacement.PosVec, screenDimensions);
+
+                //Create the texture rectangle
                 SDL_Rect textureRect = new SDL_Rect()
                 {
-                    x = (int)globalPos.X - textWidth / 2,
-                    y = (int)globalPos.Y - textHeight / 2
+                    x = (int)globalPos.X - this.TextWidth / 2,
+                    y = (int)globalPos.Y - this.TextHeight / 2
                 };
 
-                //Unused, these only exist so the out parameters can be satisfied
-                uint format;
-                int access;
-
                 //Query the texture dimensions into the rectangle
-                SDL_QueryTexture(this.Texture, out format, out access, out textureRect.w, out textureRect.h);
+                SDL_QueryTexture(this.Texture, out uint format, out int access, out textureRect.w, out textureRect.h);
 
                 //Render the texture
                 SDL_RenderCopy(renderer, this.Texture, IntPtr.Zero, ref textureRect);
