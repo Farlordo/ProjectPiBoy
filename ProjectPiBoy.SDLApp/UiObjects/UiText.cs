@@ -1,5 +1,6 @@
 ﻿using ProjectPiBoy.Common.Utilities;
 using ProjectPiBoy.SDLApp.Extensions.ColorExtensions;
+using ProjectPiBoy.SDLApp.Screens;
 using ProjectPiBoy.SDLApp.Utilities;
 using System;
 using static SDL2.SDL;
@@ -18,7 +19,7 @@ namespace ProjectPiBoy.SDLApp.UiObjects
         /// <summary>Whether the texture has been allocated or not.</summary>
         private bool TextureAllocated;
 
-        public UiText() : base()
+        public UiText(Screen screen) : base(screen)
         {
 
         }

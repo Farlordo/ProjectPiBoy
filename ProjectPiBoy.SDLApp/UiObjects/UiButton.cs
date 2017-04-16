@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static SDL2.SDL;
 using ProjectPiBoy.SDLApp.Input;
+using ProjectPiBoy.SDLApp.Screens;
 
 namespace ProjectPiBoy.SDLApp.UiObjects
 {
@@ -20,7 +21,7 @@ namespace ProjectPiBoy.SDLApp.UiObjects
 
         //TODO: Add more button stuff
 
-        public UiButton(UiObjectPlacement placement) : base(placement)
+        public UiButton(Screen screen, UiObjectPlacement placement) : base(screen, placement)
         {
             
         }
@@ -33,8 +34,17 @@ namespace ProjectPiBoy.SDLApp.UiObjects
 
             SDL_Rect buttonRect = ScreenSpaceUtil.GetGlobalBorderRectangle(globalPlacement, screenDimensions);
 
+            Color backgroundColor;
+
+            if (this.Pressed)
+                backgroundColor = assets.Theme.SecondaryActiveColor;
+            else if (this.Hovered)
+                backgroundColor = assets.Theme.SecondaryHighlightColor;
+            else
+                backgroundColor = assets.Theme.SecondaryColor;
+
             //Background
-            SDLUtil.SetSDLRenderDrawColor(renderer, this.Hovered | this.Pressed ? assets.Theme.SecondaryHighlightColor : assets.Theme.SecondaryColor);
+            SDLUtil.SetSDLRenderDrawColor(renderer, backgroundColor);
             SDL_RenderFillRect(renderer, ref buttonRect);
 
             //Outline

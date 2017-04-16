@@ -17,6 +17,8 @@ namespace ProjectPiBoy.Common.Utilities
 
         public Color SecondaryHighlightColor { get; set; }
 
+        public Color SecondaryActiveColor { get; set; }
+
         public Color BackgroundColor { get; set; }
 
         public Color TextColor { get; set; }

@@ -1,5 +1,6 @@
 ﻿using ProjectPiBoy.Common.Utilities;
 using ProjectPiBoy.SDLApp.Input;
+using ProjectPiBoy.SDLApp.Screens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace ProjectPiBoy.SDLApp.UiObjects
     /// </summary>
     public abstract class UiContainer : UiObject
     {
-        public UiContainer(UiObjectPlacement placement) : base(placement)
+        public UiContainer(Screen screen, UiObjectPlacement placement) : base(screen, placement)
         {
 
         }

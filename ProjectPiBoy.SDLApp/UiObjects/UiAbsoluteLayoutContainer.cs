@@ -5,12 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProjectPiBoy.Common.Utilities;
+using ProjectPiBoy.SDLApp.Screens;
 
 namespace ProjectPiBoy.SDLApp.UiObjects
 {
     public class UiAbsoluteLayoutContainer : UiMultiContainer
     {
-        public UiAbsoluteLayoutContainer(UiObjectPlacement placement = new UiObjectPlacement()) : base(placement)
+        public UiAbsoluteLayoutContainer(Screen screen, UiObjectPlacement placement = new UiObjectPlacement()) : base(screen, placement)
         {
 
         }

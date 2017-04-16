@@ -22,6 +22,7 @@ namespace ProjectPiBoy.SDLApp
                 PrimaryColor = new Color(0xFF00FF00),
                 SecondaryColor = new Color(0xFF002200),
                 SecondaryHighlightColor = new Color(0xFF004400),
+                SecondaryActiveColor = new Color(0xFF003300),
                 BackgroundColor = new Color(0xFF001100),
                 TextColor = new Color(0xFF44FF44),
                 DisabledTextColor = new Color(0xFF88AA88),

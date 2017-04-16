@@ -18,9 +18,14 @@ namespace ProjectPiBoy.SDLApp.Screens
         public Screen()
         {
             this.UiObjects = new List<UiObject>();
+            this.Touches = new Dictionary<long, Vector2>();
         }
 
+        /// <summary>A list of <see cref="UiObject"/>s on the screen</summary>
         protected List<UiObject> UiObjects { get; }
+
+        /// <summary>A list of touch points currently active on the screen, indexed by finger ID</summary>
+        public Dictionary<long, Vector2> Touches { get; }
 
         public void Dispose()
         {
@@ -36,6 +41,14 @@ namespace ProjectPiBoy.SDLApp.Screens
 
         public override bool HandleTouch(TouchInputEventArgs e)
         {
+            //Update the touches dictionary
+            this.Touches[e.FingerID] = e.Pos;
+
+            //TODO: Instead of doing it this way, create a system that finds the UiObject being hovered over,
+            //and its parents in the visual tree. Then walk up to the root node (this screen), seeing if a
+            //UiObject will handle it. This needs to be able to work with other events as well.
+
+            //Handle the touch event
             return HandleChildrenTouchHelper(e, this.UiObjects, base.HandleTouch,
                 (e1, c1) => c1.ContainsGlobalPoint(e1.Pos));
 

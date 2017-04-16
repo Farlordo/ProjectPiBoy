@@ -8,12 +8,13 @@ using ProjectPiBoy.Common.Utilities;
 using System.ComponentModel;
 using System.Collections.Specialized;
 using ProjectPiBoy.SDLApp.Input;
+using ProjectPiBoy.SDLApp.Screens;
 
 namespace ProjectPiBoy.SDLApp.UiObjects
 {
     public abstract class UiMultiContainer : UiObject
     {
-        public UiMultiContainer(UiObjectPlacement placement) : base(placement)
+        public UiMultiContainer(Screen screen, UiObjectPlacement placement) : base(screen, placement)
         {
 
         }

@@ -1,5 +1,6 @@
 ﻿using ProjectPiBoy.Common.Utilities;
 using ProjectPiBoy.SDLApp.Input;
+using ProjectPiBoy.SDLApp.Screens;
 using ProjectPiBoy.SDLApp.Utilities;
 using System;
 using static SDL2.SDL;
@@ -11,10 +12,11 @@ namespace ProjectPiBoy.SDLApp.UiObjects
     /// </summary>
     public abstract class UiObject : TouchListener, IDisposable, IRenderable
     {
-        public UiObject() : this(default(UiObjectPlacement)) { }
+        public UiObject(Screen screen) : this(screen, default(UiObjectPlacement)) { }
 
-        public UiObject(UiObjectPlacement placement, Vector2 placementOffset = new Vector2())
+        public UiObject(Screen screen, UiObjectPlacement placement, Vector2 placementOffset = new Vector2())
         {
+            this.Screen = screen;
             this.Placement = placement;
             this.PlacementOffset = placementOffset;
         }
@@ -54,13 +56,26 @@ namespace ProjectPiBoy.SDLApp.UiObjects
             return this.GetGlobalPlacement().ContainsPoint(point);
         }
 
+        /// <summary>The screen that this <see cref="UiObject"/> is on</summary>
+        public Screen Screen { get; }
+
         /// <summary>Whether the <see cref="UiObject"/> is being hovered over</summary>
         public bool Hovered { get; protected set; }
 
         public virtual void Render(IntPtr renderer, Vector2 screenDimensions, Assets assets, bool showDebugBorders)
         {
-            //TODO: This needs replaced, see OnTouchHover comments
-            this.Hovered = false;
+            bool hovered = false;
+
+            //If there are any touches over this object, then it is being hovered over
+            foreach (var touch in this.Screen.Touches)
+                if (this.ContainsGlobalPoint(touch.Value))
+                {
+                    hovered = true;
+                    break;
+                }
+
+            //Update hovered state
+            this.Hovered = hovered;
 
             if (showDebugBorders)
             {
@@ -76,13 +91,6 @@ namespace ProjectPiBoy.SDLApp.UiObjects
         public virtual void Dispose()
         {
             //Nothing to dispose
-        }
-
-        public override bool OnTouchHover(TouchInputEventArgs e)
-        {
-            //TODO: This needs to be controlled in a better way. This is only called when the mouse moves!
-            this.Hovered = true;
-            return true;
         }
     }
 }
