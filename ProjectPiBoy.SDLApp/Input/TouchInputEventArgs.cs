@@ -1,4 +1,5 @@
 ﻿using ProjectPiBoy.Common.Utilities;
+using ProjectPiBoy.SDLApp.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using static SDL2.SDL;
 
 namespace ProjectPiBoy.SDLApp.Input
 {
-    public class TouchInputEventArgs : EventArgs
+    public class TouchInputEventArgs : RoutedEventArgs
     {
         /// <summary>
         /// The type of the touch input
@@ -29,11 +30,6 @@ namespace ProjectPiBoy.SDLApp.Input
         /// The ID of the finger that caused the input, for touch screens
         /// </summary>
         public long FingerID { get; }
-
-        /// <summary>
-        /// The position of the touch
-        /// </summary>
-        public Vector2 Pos { get; set; }
 
         /// <summary>
         /// The movement of the touch

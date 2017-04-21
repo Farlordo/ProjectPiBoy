@@ -1,4 +1,5 @@
 ﻿using ProjectPiBoy.Common.Utilities;
+using ProjectPiBoy.SDLApp.Events.RoutedExtensions;
 using ProjectPiBoy.SDLApp.Screens;
 using ProjectPiBoy.SDLApp.Utilities;
 using System;
@@ -110,8 +111,8 @@ namespace ProjectPiBoy.SDLApp
                     //Convert to percent coordinates
                     e.Pos /= new Vector2(width, height);
 
-                    //Have the screen handle the touch
-                    this.Screens.Peek()?.HandleTouch(e);
+                    //Route the touch event to the screen
+                    this.Screens.Peek()?.Route(e);
                 }
             };
 
@@ -132,13 +133,11 @@ namespace ProjectPiBoy.SDLApp
             this.Running = true;
             this.FrameStopwatch = Stopwatch.StartNew();
 
-            SDL_Event sdlEvent;
-
             //Update loop
             while (this.Running)
             {
                 //Handle all SDL events
-                while (SDL_PollEvent(out sdlEvent) == 1)
+                while (SDL_PollEvent(out SDL_Event sdlEvent) == 1)
                     this.EventListener.OnSDLEvent(sdlEvent);
 
                 this.Update();

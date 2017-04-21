@@ -8,13 +8,14 @@ using ProjectPiBoy.SDLApp.UiObjects;
 using ProjectPiBoy.Common.Utilities;
 using ProjectPiBoy.SDLApp.Input;
 using System.Collections;
+using ProjectPiBoy.SDLApp.Events;
 
 namespace ProjectPiBoy.SDLApp.Screens
 {
     /// <summary>
     /// Represents a screen that can be displayed by the program.
     /// </summary>
-    public abstract class Screen : TouchListener, IRenderable, IDisposable, IEnumerable<UiObject>
+    public abstract class Screen : TouchListener, IRenderable, IDisposable, IEnumerable<UiObject>, IRoutedEventListener
     {
         public Screen()
         {
@@ -40,66 +41,24 @@ namespace ProjectPiBoy.SDLApp.Screens
                 uiObject.Render(renderer, screenDimensions, assets, showDebugBorders);
         }
 
-        public Stack<UiObject> FindUiObjectsAtPosition(Vector2 pos)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool HandleTouch(TouchInputEventArgs e)
-        {
-            //Update the touches dictionary
-            this.Touches[e.FingerID] = e.Pos;
-
-            //TODO: Instead of doing it this way, create a system that finds the UiObject being hovered over,
-            //and its parents in the visual tree. Then walk up to the root node (this screen), seeing if a
-            //UiObject will handle it. This needs to be able to work with other events as well.
-
-            //Handle the touch event
-            return HandleChildrenTouchHelper(e, this.UiObjects, base.HandleTouch,
-                (e1, c1) => c1.ContainsGlobalPoint(e1.Pos));
-
-            //bool handled = false;
-
-            ////Delegate the touch event to the UI objects that the touch is within
-            //foreach (UiObject uiObject in this.UiObjects)
-            //{
-            //    //Once one child handles it, we don't need to try the others
-            //    if (handled)
-            //        break;
-
-            //    if (uiObject.Placement.ContainsPoint(e.Pos))
-            //        handled = uiObject.HandleTouch(e);
-            //}
-
-            ////If the touch event wasn't handled by the content, then handle it
-            //if (!handled)
-            //    handled = base.HandleTouch(e);
-
-            //return handled;
-        }
-
         public IEnumerator<UiObject> GetEnumerator() => this.UiObjects.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => this.UiObjects.GetEnumerator();
 
-        //public override void OnTouchHover(TouchInputEventArgs e)
-        //{
-        //    base.OnTouchHover(e);
-        //}
+        public override void OnEvent(RoutedEventArgs e)
+        {
+            base.OnEvent(e);
 
-        //public override void OnTouchDown(TouchInputEventArgs e)
-        //{
-        //    base.OnTouchDown(e);
-        //}
+            //This can be overriden to handle events, but make sure to call base!
+        }
 
-        //public override void OnTouchUp(TouchInputEventArgs e)
-        //{
-        //    base.OnTouchUp(e);
-        //}
+        public override void OnPreRoute(RoutedEventArgs e)
+        {
+            base.OnPreRoute(e);
 
-        //public override void OnTouchMove(TouchInputEventArgs e)
-        //{
-        //    base.OnTouchMove(e);
-        //}
+            //If the event is a touch event, update the touches dictionary
+            if (e is TouchInputEventArgs te)
+                this.Touches[te.FingerID] = te.Pos;
+        }
     }
 }

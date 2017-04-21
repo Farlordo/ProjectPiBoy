@@ -8,13 +8,14 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using static SDL2.SDL;
 using System.Collections;
+using ProjectPiBoy.SDLApp.Events;
 
 namespace ProjectPiBoy.SDLApp.UiObjects
 {
     /// <summary>
     /// Represents a UI Object that can be displayed on a screen.
     /// </summary>
-    public abstract class UiObject : TouchListener, IDisposable, IRenderable, IEnumerable<UiObject>
+    public abstract class UiObject : TouchListener, IDisposable, IRenderable, IEnumerable<UiObject>, IRoutedEventListener
     {
         public UiObject(Screen screen) : this(screen, default(UiObjectPlacement)) { }
 
@@ -175,5 +176,12 @@ namespace ProjectPiBoy.SDLApp.UiObjects
         public IEnumerator<UiObject> GetEnumerator() => this.ChildObjects.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => this.ChildObjects.GetEnumerator();
+
+        public override void OnEvent(RoutedEventArgs e)
+        {
+            base.OnEvent(e);
+
+            //This can be overriden to handle events, but make sure to call base!
+        }
     }
 }

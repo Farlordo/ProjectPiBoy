@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using static SDL2.SDL;
 using ProjectPiBoy.SDLApp.Input;
 using ProjectPiBoy.SDLApp.Screens;
+using ProjectPiBoy.SDLApp.Events;
 
 namespace ProjectPiBoy.SDLApp.UiObjects
 {
@@ -57,29 +58,22 @@ namespace ProjectPiBoy.SDLApp.UiObjects
             base.Render(renderer, screenDimensions, assets, showDebugBorders);
         }
 
-        public override bool OnTouchDown(TouchInputEventArgs e)
+        public override void OnTouchDown(TouchInputEventArgs e)
         {
-            //If the base didn't handle it
-            if (!base.OnTouchDown(e))
-            {
-                this.Pressed = true;
-                this.Click?.Invoke();
-                //Console.WriteLine($"{nameof(UiButton)}(\"{this.Content}\"): OnTouchDown called and handled!");
-            }
+            base.OnTouchDown(e);
 
-            return true;
-            
+            e.Handled = true;
+            this.Pressed = true;
+            this.Click?.Invoke();
+            //Console.WriteLine($"{nameof(UiButton)}(\"{this.Content}\"): OnTouchDown called and handled!");
         }
 
-        public override bool OnTouchUp(TouchInputEventArgs e)
+        public override void OnTouchUp(TouchInputEventArgs e)
         {
-            //If the base didn't handle it
-            if (!base.OnTouchDown(e))
-            {
-                this.Pressed = false;
-            }
+            base.OnTouchUp(e);
 
-            return true;
+            e.Handled = true;
+            this.Pressed = false;
         }
 
         /// <summary>Fired when the button is clicked</summary>
