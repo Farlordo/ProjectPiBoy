@@ -36,7 +36,11 @@ namespace ProjectPiBoy.SDLApp
         public Program()
         {
             this.Screens = new Stack<Screen>();
-            this.Screens.Push(new TestScreen());
+        }
+
+        public void SetupScreen()
+        {
+            this.Screens.Push(new TestScreen(this.Assets));
         }
 
         /// <summary>
@@ -115,6 +119,9 @@ namespace ProjectPiBoy.SDLApp
                     this.Screens.Peek()?.Route(e);
                 }
             };
+
+            //Set up the screen
+            this.SetupScreen();
 
             return true;
         }

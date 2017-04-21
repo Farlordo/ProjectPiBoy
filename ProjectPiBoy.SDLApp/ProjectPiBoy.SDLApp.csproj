@@ -68,8 +68,10 @@
     <Compile Include="UiObjects\UiButton.cs" />
     <Compile Include="UiObjects\UiObject.cs" />
     <Compile Include="UiObjects\UiObjectPlacement.cs" />
+    <Compile Include="UiObjects\UiPanel.cs" />
     <Compile Include="UiObjects\UiText.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
+    <Compile Include="UiObjects\UiTitledPanel.cs" />
     <Compile Include="Utilities\IRenderable.cs" />
     <Compile Include="Utilities\ScreenSpaceUtil.cs" />
     <Compile Include="Utilities\SDLUtil.cs" />

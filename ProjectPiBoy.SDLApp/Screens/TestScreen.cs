@@ -15,9 +15,9 @@ namespace ProjectPiBoy.SDLApp.Screens
     /// </summary>
     public class TestScreen : Screen
     {
-        public TestScreen()
+        public TestScreen(Assets assets)
         {
-            var clickMeButton = new UiButton(this, new UiObjectPlacement(0.2F, 0.1F, 0.4F, 0.2F, 0))
+            var clickMeButton = new UiButton(this, new UiObjectPlacement(0.12F, 0.05F, 0.24F, 0.1F, 0))
             {
                 new UiText(this)
                 {
@@ -29,8 +29,7 @@ namespace ProjectPiBoy.SDLApp.Screens
 
             this.UiObjects.Add(clickMeButton);
 
-
-            this.UiObjects.Add(new UiButton(this, new UiObjectPlacement(0.8F, 0.1F, 0.4F, 0.2F, 0))
+            this.UiObjects.Add(new UiButton(this, new UiObjectPlacement(0.88F, 0.05F, 0.24F, 0.1F, 0))
             {
                 new UiText(this)
                 {
@@ -38,11 +37,34 @@ namespace ProjectPiBoy.SDLApp.Screens
                 }
             });
 
+
             this.UiObjects.Add(new UiText(this)
             {
-                Placement = new UiObjectPlacement(0.4F, 0.4F, 0F, 0F, 0),
-                Text = "TITLE"
+                Placement = new UiObjectPlacement(0.4F, 0.1F, 0F, 0F, 0),
+                Text = "Text"
             });
+
+            var panel = new UiTitledPanel(this, new UiObjectPlacement(0.5F, 0.4F, 0.95F, 0.4F, 0))
+            {
+                BackgroundColor = assets.Theme.BackgroundColor,
+                Title = "TITLE"
+            };
+
+            var button3 = new UiButton(this, new UiObjectPlacement(
+                (-panel.Placement.Width / 2F) + 0.15F, (-panel.Placement.Height / 2F) + 0.15F,
+                0.24F, 0.1F, 0))
+            {
+                new UiText(this)
+                {
+                    Text = "Button 3"
+                }
+            };
+
+            button3.Click += () => Console.WriteLine("Button 3 clicked!");
+
+            panel.Add(button3);
+
+            this.UiObjects.Add(panel);
 
             var outerButton = new UiButton(this, new UiObjectPlacement(0.5F, 0.8F, 0.9F, 0.2F, 0))
             {
