@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets.cs" />
+    <Compile Include="Data\Binding\IBinding.cs" />
+    <Compile Include="Data\Binding\PropertyBinding.cs" />
     <Compile Include="Events\EventRouter.cs" />
     <Compile Include="Events\IRoutedEventListener.cs" />
     <Compile Include="Events\RoutedEventArgs.cs" />

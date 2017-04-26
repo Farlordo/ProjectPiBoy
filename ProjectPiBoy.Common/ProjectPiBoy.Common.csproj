@@ -42,7 +42,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Color.cs" />
+    <Compile Include="Utilities\CustomBindableBase.cs" />
     <Compile Include="Utilities\MathUtil.cs" />
+    <Compile Include="Utilities\ReflectionUtil.cs" />
     <Compile Include="Utilities\Theme.cs" />
     <Compile Include="Utilities\Vector2.cs" />
     <Compile Include="Utilities\Vector3.cs" />

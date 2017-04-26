@@ -1,4 +1,5 @@
 ﻿using ProjectPiBoy.Common.Utilities;
+using ProjectPiBoy.SDLApp.Data.Binding;
 using ProjectPiBoy.SDLApp.UiObjects;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,29 @@ namespace ProjectPiBoy.SDLApp.Screens
     /// </summary>
     public class TestScreen : Screen
     {
+        private class TestScreenViewModel : CustomBindableBase
+        {
+            private string _Text1;
+            public string Text1
+            {
+                get => this._Text1;
+                set => this.SetProperty(ref this._Text1, value);
+            }
+
+            private string _TimeText;
+            public string TimeText
+            {
+                get => this._TimeText;
+                set => this.SetProperty(ref this._TimeText, value);
+            }
+        }
+
+        private TestScreenViewModel ViewModel { get; set; }
+
         public TestScreen(Assets assets)
         {
+            this.ViewModel = new TestScreenViewModel();
+
             var clickMeButton = new UiButton(this, new UiObjectPlacement(0.12F, 0.05F, 0.24F, 0.1F, 0))
             {
                 new UiText(this)
@@ -25,7 +47,7 @@ namespace ProjectPiBoy.SDLApp.Screens
                 }
             };
 
-            clickMeButton.Click += () => Console.WriteLine("Click Me button clicked!");
+            clickMeButton.Click += () => this.ViewModel.Text1 = "Click Me button clicked!";
 
             this.UiObjects.Add(clickMeButton);
 
@@ -37,12 +59,17 @@ namespace ProjectPiBoy.SDLApp.Screens
                 }
             });
 
-
-            this.UiObjects.Add(new UiText(this)
+            UiText text = new UiText(this)
             {
-                Placement = new UiObjectPlacement(0.4F, 0.1F, 0F, 0F, 0),
-                Text = "Text"
-            });
+                Placement = new UiObjectPlacement(0.5F, 0.1F, 0F, 0F, 0)
+            };
+
+            this.UiObjects.Add(text);
+
+            //Create a binding between Text1 and the text
+            PropertyBinding<string, string>.NewBinding(text, t => t.Text, this.ViewModel, vm => vm.Text1);
+
+            this.ViewModel.Text1 = "Custom Text";
 
             var panel = new UiTitledPanel(this, new UiObjectPlacement(0.5F, 0.4F, 0.95F, 0.4F, 0))
             {
@@ -60,7 +87,17 @@ namespace ProjectPiBoy.SDLApp.Screens
                 }
             };
 
-            button3.Click += () => Console.WriteLine("Button 3 clicked!");
+            button3.Click += () => this.ViewModel.Text1 = "Button 3 clicked!";
+
+            var timeText = new UiText(this)
+            {
+                Placement = new UiObjectPlacement(0.15F, 0.15F, 0F, 0F, 0)
+            };
+
+            //Create a binding between timeText and TimeText
+            PropertyBinding<string, string>.NewBinding(timeText, t => t.Text, this.ViewModel, vm => vm.TimeText);
+
+            panel.Add(timeText);
 
             panel.Add(button3);
 
@@ -79,7 +116,7 @@ namespace ProjectPiBoy.SDLApp.Screens
                         }
                     };
 
-                    button.Click += () => Console.WriteLine("Inner button clicked!");
+                    button.Click += () => this.ViewModel.Text1 = "Inner button clicked!";
 
                     return button;
                 }))(),
@@ -92,9 +129,17 @@ namespace ProjectPiBoy.SDLApp.Screens
                 }
             };
 
-            outerButton.Click += () => Console.WriteLine("Outer button clicked!");
+            outerButton.Click += () => this.ViewModel.Text1 = "Outer button clicked!";
 
             this.UiObjects.Add(outerButton);
+        }
+
+        public override void Render(IntPtr renderer, Vector2 screenDimensions, Assets assets, bool showDebugBorders)
+        {
+            base.Render(renderer, screenDimensions, assets, showDebugBorders);
+
+            //Update the time property (this could be WAY more efficient)
+            this.ViewModel.TimeText = $"Time: {DateTime.Now}";
         }
     }
 }
