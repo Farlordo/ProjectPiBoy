@@ -31,9 +31,24 @@ namespace ProjectPiBoy.SDLApp.Screens
                 get => this._TimeText;
                 set => this.SetProperty(ref this._TimeText, value);
             }
+
+            private double _FPS;
+            public double FPS
+            {
+                get => this._FPS;
+                set => this.SetPropertyWithDependencies(ref this._FPS, value,
+                    nameof(this.FPS), nameof(this.FpsStr));
+            }
+
+            public string FpsStr => $"FPS: {this.FPS:0.00}";
         }
 
         private TestScreenViewModel ViewModel { get; set; }
+
+        public override void OnFpsUpdate(double frameRate, double frameTime)
+        {
+            this.ViewModel.FPS = frameRate;
+        }
 
         public TestScreen(Assets assets)
         {
@@ -70,6 +85,16 @@ namespace ProjectPiBoy.SDLApp.Screens
             PropertyBinding<string, string>.NewBinding(text, t => t.Text, this.ViewModel, vm => vm.Text1);
 
             this.ViewModel.Text1 = "Custom Text";
+
+            UiText fpsText = new UiText(this)
+            {
+                Placement = new UiObjectPlacement(0.85F, 0.15F, 0F, 0F, 0)
+            };
+
+            this.UiObjects.Add(fpsText);
+
+            //Create a binding between FPS and the fpsText
+            PropertyBinding<string, string>.NewBinding(fpsText, t => t.Text, this.ViewModel, vm => vm.FpsStr);
 
             var panel = new UiTitledPanel(this, new UiObjectPlacement(0.5F, 0.4F, 0.95F, 0.4F, 0))
             {

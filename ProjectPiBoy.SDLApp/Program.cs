@@ -5,6 +5,7 @@ using ProjectPiBoy.SDLApp.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 namespace ProjectPiBoy.SDLApp
@@ -16,6 +17,17 @@ namespace ProjectPiBoy.SDLApp
         
         /// <summary>The <see cref="Stopwatch"/> used for tracking frame render time.</summary>
         private Stopwatch FrameStopwatch { get; set; }
+
+        /// <summary>The target framerate, in frames per second (fps)</summary>
+        public const double TargetFrameRate = 30;
+        /// <summary>The target frame time, in milliseconds</summary>
+        public const double TargetFrameTime = 1000D / TargetFrameRate;
+
+        ///// <summary>The actual measured frame rate, in frames per second (fps)</summary>
+        //public double FrameRate { get; private set; }
+
+        /// <summary>An event that gets fired when a frame is rendered, useful for setting VM properties</summary>
+        public event Action<(double frameRate, double frameTime)> FrameRendered;
 
         /// <summary>An <see cref="SDLEventListener"/> for the program.</summary>
         private SDLEventListener EventListener;
@@ -36,6 +48,9 @@ namespace ProjectPiBoy.SDLApp
         public Program()
         {
             this.Screens = new Stack<Screen>();
+
+            //Handle fps updates
+            this.FrameRendered += e => this.Screens.Peek()?.OnFpsUpdate(e.frameRate, e.frameTime);
         }
 
         public void SetupScreen()
@@ -139,16 +154,50 @@ namespace ProjectPiBoy.SDLApp
             //Start the program running
             this.Running = true;
             this.FrameStopwatch = Stopwatch.StartNew();
+            //ulong frame = 0;
 
             //Update loop
             while (this.Running)
             {
+                this.FrameStopwatch.Reset();
+                this.FrameStopwatch.Start();
+
                 //Handle all SDL events
                 while (SDL_PollEvent(out SDL_Event sdlEvent) == 1)
                     this.EventListener.OnSDLEvent(sdlEvent);
 
                 this.Update();
                 this.Render();
+
+
+                //Measure the time it took to render
+                this.FrameStopwatch.Stop();
+                long frameTime = this.FrameStopwatch.ElapsedMilliseconds;
+                this.FrameStopwatch.Start();
+
+                //Calculate the time to wait until the next frame
+                int timeToSleep = (int) Math.Max(0, TargetFrameTime - frameTime);
+
+                //this.FrameStopwatch.Stop();
+                //Console.WriteLine($"Frame {frame} done rendering: Elapsed time: {frameTime} ms, sleeping for {timeToSleep} ms");
+
+                //Wait until the next frame
+                Thread.Sleep(timeToSleep);
+
+                //Measure the time it took to render and sleep
+                this.FrameStopwatch.Stop();
+                frameTime = this.FrameStopwatch.ElapsedMilliseconds;
+
+                //Calculate the frame rate
+                double fps = 1000D / frameTime;
+
+                //Console.WriteLine($"FPS: {this.FrameRate}");
+                //Console.WriteLine($"Frame {frame} finished: Elapsed time: {frameTime} ms, fps: {this.FrameRate}");
+
+                //frame++;
+
+                //Fire the FrameRendered event
+                this.FrameRendered?.Invoke((fps, frameTime));
             }
 
             //Once the update loop has been exited, dispose of the program's resources

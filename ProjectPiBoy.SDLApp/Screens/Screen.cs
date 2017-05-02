@@ -60,5 +60,13 @@ namespace ProjectPiBoy.SDLApp.Screens
             if (e is TouchInputEventArgs te)
                 this.Touches[te.FingerID] = te.Pos;
         }
+
+        //TODO: The screen shouldn't need to know this, find some way to inject it into view models!
+        /// <summary>
+        /// Called when a frame is rendered
+        /// </summary>
+        /// <param name="frameRate">The frame rate, in fps</param>
+        /// <param name="frameTime">The frame time, in milliseconds</param>
+        public virtual void OnFpsUpdate(double frameRate, double frameTime) { }
     }
 }

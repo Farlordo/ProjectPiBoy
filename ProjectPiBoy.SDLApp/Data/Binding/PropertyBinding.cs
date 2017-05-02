@@ -40,8 +40,19 @@ namespace ProjectPiBoy.SDLApp.Data.Binding
             this.View = view;
             this.Model = model;
 
-            this.ViewWatcher = (s, e) => this.OnViewChanged();
-            this.ModelWatcher = (s, e) => this.OnModelChanged();
+            this.ViewWatcher = (s, e) =>
+            {
+                //The view only changes when the change was caused by the watched property
+                if (string.Equals(e.PropertyName, this.ViewProperty.Name))
+                    this.OnViewChanged();
+            };
+
+            this.ModelWatcher = (s, e) =>
+            {
+                //The model only changes when the change was caused by the watched property
+                if (string.Equals(e.PropertyName, this.ModelProperty.Name))
+                    this.OnModelChanged();
+            };
 
             //TODO: Find out how to unregister these when needed, to avoid memory leaks!
             //Note that these are the only things holding onto this object!
